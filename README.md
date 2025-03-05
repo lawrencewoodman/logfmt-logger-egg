@@ -65,7 +65,7 @@ Module Usage
 
 Requirements
 ------------
-* Chicken Scheme 5.4+
+* Chicken Scheme 5.3+
 
 
 Testing
