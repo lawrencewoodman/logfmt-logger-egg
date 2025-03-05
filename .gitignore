@@ -1,6 +1,9 @@
-*.o
-*.so
-*.link
-*.sh
 *.swp
 
+
+# Build artifacts
+logfmt*.import.scm
+logfmt*.o
+logfmt*.so
+logfmt*.link
+logfmt*.sh
