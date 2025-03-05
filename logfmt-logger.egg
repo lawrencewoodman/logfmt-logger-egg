@@ -1,0 +1,9 @@
+((synopsis "Logger that outputs using logfmt")
+ (version 0.1)
+ (license "MIT")
+ (author "Lawrence Woodman")
+ (category io)
+ (dependencies srfi-13)
+ (test-dependencies test)
+ (components (extension logfmt-logger)))
+
