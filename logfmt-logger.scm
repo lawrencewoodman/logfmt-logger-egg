@@ -10,6 +10,7 @@
    log-info
    log-warning
    log-error
+   log-critical
    log-level
    log-port)
 
@@ -37,6 +38,7 @@
 ;;   20 = 'info
 ;;   30 = 'warning
 ;;   40 = 'error
+;;   50 = 'critical
 ;; Defaults to 30, 'warning
 (define log-level (make-parameter 30 (lambda (level)
   (case level
@@ -44,6 +46,7 @@
     ('info 20)
     ('warning 30)
     ('error 40)
+    ('critical 50)
     (else (if (integer? level)
               level
               (error 'log-level (sprintf "unsupported value: ~A" level) ) ) ) ) ) ) )
@@ -87,6 +90,13 @@
 (: log-error (string #!rest (list-of kv-pair) --> undefined))
 (define (log-error msg . args)
   (log-entry 40 "error" msg args) )
+
+
+;; Add a log entry with level=critical
+;; See log-info for more details
+(: log-critical (string #!rest (list-of kv-pair) --> undefined))
+(define (log-critical msg . args)
+  (log-entry 50 "critical" msg args) )
 
 
 ;; Internal Definitions ------------------------------------------------------

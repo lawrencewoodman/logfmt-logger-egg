@@ -41,6 +41,10 @@ Module Usage
 (log-level 40)
 (log-level 'error)       ; as above
 
+;; This would allow anything from 'level=critical' and up to output
+(log-level 50)
+(log-level 'critical)    ; as above
+
 ;; This would disable all the currently supported log functions from outputting
 (log-level 100)
 
@@ -52,17 +56,21 @@ Module Usage
 
 ;; This would output a message of the form:
 ;;    ts=2025-03-04T13:13:51+0000 level=info msg="this is a message" tag=train dir=north\n
-;; log-debug, log-info, log-warning, log-error can take a series of key value
-;; pairs after the message.
+;; log-debug, log-info, log-warning, log-error, log-critical can take a series of
+;; key value pairs after the message.
 (log-info "this is a message" (cons 'tag 'train) (cons 'dir "north"))
 
 ;; This would output a message of the form:
 ;;    ts=2025-03-04T13:13:51+0000 level=warning msg="a message" phrase="two birds..."\n
 (log-warning "a message" (cons 'phrase "two birds..."))
 
-;; This would output an error of the form:
+;; This would output a message of the form:
 ;;    ts=2025-03-04T13:13:51+0000 level=error msg="an error" phrase="two birds..."\n
 (log-error "an error" (cons 'phrase "two birds..."))
+
+;; This would output a message of the form:
+;;    ts=2025-03-04T13:13:51+0000 level=critical msg="an error" phrase="two birds..."\n
+(log-critical "a critical error" (cons 'phrase "two birds..."))
 ```
 
 

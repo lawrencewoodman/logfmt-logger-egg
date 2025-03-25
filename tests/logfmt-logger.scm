@@ -137,6 +137,14 @@
           (confirm-valid-timestamps (get-output-string port) ) ) ) )
 
 
+(test "log-critical sets level to 'critical' and sets the timestamp and message"
+      "ts=#t level=critical msg=message\n"
+      (let ((port (open-output-string)))
+        (parameterize ((log-port port))
+          (log-critical "message")
+          (confirm-valid-timestamps (get-output-string port) ) ) ) )
+
+
 (test "log-debug outputs while log-level is <= 10"
       (string-intersperse (list
         "ts=#t level=debug msg=message log-level=9"
@@ -193,6 +201,20 @@
         (confirm-valid-timestamps (get-output-string port) ) ) )
 
 
+(test "log-critical outputs while log-level is <= 50"
+      (string-intersperse (list
+        "ts=#t level=critical msg=message log-level=49"
+        "ts=#t level=critical msg=message log-level=50\n")
+        "\n")
+      (let ((port (open-output-string)))
+        (for-each (lambda (l)
+                    (parameterize ((log-port port)
+                                   (log-level l))
+                      (log-critical "message" (cons 'log-level l))))
+                  '(49 50 51))
+        (confirm-valid-timestamps (get-output-string port) ) ) )
+
+
 (test "log-info handles values of each of the supported types: string, symbol, integer and real"
       (string-intersperse (list
         "ts=#t level=info msg=message type=string value=hello"
@@ -243,9 +265,14 @@
       (log-level 'error) )
 
 
+(test "log-level returns 50 if 'critical supplied"
+      50
+      (log-level 'critical) )
+
+
 (test "log-level returns supplied number"
-      (list 0 1 5 10 15 20 30 40 50)
-      (map log-level (list 0 1 5 10 15 20 30 40 50) ) )
+      (list 0 1 5 10 15 20 30 40 50 60 100)
+      (map log-level (list 0 1 5 10 15 20 30 40 50 60 100) ) )
 
 
 (test "log-level raises an error if unknown symbol supplied"
