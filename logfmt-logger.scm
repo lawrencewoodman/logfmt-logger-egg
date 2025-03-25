@@ -32,8 +32,22 @@
 
 ;; Control which log entries are output
 ;; If the entries have a level-number >= (log-level) they will be output
-;; Defaults to 30, 'warning'
-(define log-level (make-parameter 30))
+;; Accepts level numbers or symbols:
+;;   10 = 'debug
+;;   20 = 'info
+;;   30 = 'warning
+;;   40 = 'error
+;; Defaults to 30, 'warning
+(define log-level (make-parameter 30 (lambda (level)
+  (case level
+    ('debug 10)
+    ('info 20)
+    ('warning 30)
+    ('error 40)
+    (else (if (integer? level)
+              level
+              (error 'log-level (sprintf "unsupported value: ~A" level) ) ) ) ) ) ) )
+
 
 ;; The port that output is sent to when most log-* commands are called
 ;; Defaults to (current-error-port)
@@ -52,6 +66,7 @@
 (: log-debug (string #!rest (list-of kv-pair) --> undefined))
 (define (log-debug msg . args)
   (log-entry 10 "debug" msg args) )
+
 
 ;; Add a log entry with level=info
 ;; See log-debug for more details
@@ -148,6 +163,9 @@
 ;; including the offset from UTC
 (define (timestamp)
   (time->string (seconds->local-time (current-seconds)) "%Y-%m-%dT%H:%M:%S%z") )
+
+
+
 
 )
 

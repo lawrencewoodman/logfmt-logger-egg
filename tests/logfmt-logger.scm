@@ -213,7 +213,7 @@
         (confirm-valid-timestamps (get-output-string port) ) ) )
 
 
-(test "log-info raises an eror if a value is of an unsupported type"
+(test "log-info raises an error if a value is of an unsupported type"
       '(encode-value "unsupported type for value: ()")
       (let ((port (open-output-string)))
         (parameterize ((log-port port))
@@ -222,4 +222,36 @@
                   (get-condition-property ex 'exn 'message))
             (log-info "message" (cons 'value '()))
             (confirm-valid-timestamps (get-output-string port) ) ) ) ) )
+
+(test "log-level returns 10 if 'debug supplied"
+      10
+      (log-level 'debug) )
+
+
+(test "log-level returns 20 if 'info supplied"
+      20
+      (log-level 'info) )
+
+
+(test "log-level returns 30 if 'warning supplied"
+      30
+      (log-level 'warning) )
+
+
+(test "log-level returns 40 if 'error supplied"
+      40
+      (log-level 'error) )
+
+
+(test "log-level returns supplied number"
+      (list 0 1 5 10 15 20 30 40 50)
+      (map log-level (list 0 1 5 10 15 20 30 40 50) ) )
+
+
+(test "log-level raises an error if unknown symbol supplied"
+      '(log-level "unsupported value: fred")
+      (handle-exceptions ex
+        (list (get-condition-property ex 'exn 'location)
+              (get-condition-property ex 'exn 'message))
+        (log-level 'fred) ) )
 

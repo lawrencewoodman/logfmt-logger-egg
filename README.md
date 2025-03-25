@@ -27,15 +27,19 @@ Module Usage
 
 ;; This would allow anything from 'level=debug' and up to output
 (log-level 10)
+(log-level 'debug)       ; as above
 
 ;; This would allow anything from 'level=info' and up to output
 (log-level 20)
+(log-level 'info)        ; as above
 
 ;; This would allow anything from 'level=warning' and up to output
 (log-level 30)
+(log-level 'warning)     ; as above
 
 ;; This would allow anything from 'level=error' and up to output
 (log-level 40)
+(log-level 'error)       ; as above
 
 ;; This would disable all the currently supported log functions from outputting
 (log-level 100)
