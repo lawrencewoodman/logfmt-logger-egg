@@ -215,14 +215,16 @@
         (confirm-valid-timestamps (get-output-string port) ) ) )
 
 
-(test "log-info handles values of each of the supported types: string, symbol, integer and real"
+(test "log-info handles values of each of the supported types: string, symbol, integer, real and boolean"
       (string-intersperse (list
         "ts=#t level=info msg=message type=string value=hello"
         "ts=#t level=info msg=message type=symbol value=howdy"
         "ts=#t level=info msg=message type=integer value=-563"
         "ts=#t level=info msg=message type=integer value=563"
         "ts=#t level=info msg=message type=real value=-563.23"
-        "ts=#t level=info msg=message type=real value=563.23\n")
+        "ts=#t level=info msg=message type=real value=563.23"
+        "ts=#t level=info msg=message type=boolean value=#t"
+        "ts=#t level=info msg=message type=boolean value=#f\n")
         "\n")
       (let ((port (open-output-string)))
         (parameterize ((log-port port))
@@ -231,7 +233,9 @@
           (log-info "message" (cons 'type "integer") (cons 'value -563))
           (log-info "message" (cons 'type "integer") (cons 'value 563))
           (log-info "message" (cons 'type "real") (cons 'value -563.23))
-          (log-info "message" (cons 'type "real") (cons 'value 563.23)))
+          (log-info "message" (cons 'type "real") (cons 'value 563.23))
+          (log-info "message" (cons 'type "boolean") (cons 'value #t))
+          (log-info "message" (cons 'type "boolean") (cons 'value #f)))
         (confirm-valid-timestamps (get-output-string port) ) ) )
 
 

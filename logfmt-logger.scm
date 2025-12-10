@@ -115,7 +115,7 @@
                                 (cons 'level (encode-value level-str))
                                 (cons 'msg (encode-value msg))))
            (final-kv-pairs (append base-kv-pairs (encode-values/dedup kv-pairs))))
-      (fprintf (log-port) "~A\n" (alist->logfmt-str-entry final-kv-pairs))
+      (fprintf (log-port) "~A~%" (alist->logfmt-str-entry final-kv-pairs))
       (flush-output (log-port) ) ) ) )
 
 
@@ -139,11 +139,13 @@
          alist) )
 
 
+;; TODO: Document the supported types
 (define (encode-value value)
   (cond ((string? value) (encode-string value))
         ((symbol? value) (encode-string (symbol->string value)))
         ((integer? value) value)
         ((real? value) value)
+        ((boolean? value) value)
         (else (error 'encode-value (sprintf "unsupported type for value: ~A" value) ) ) ) )
 
 
