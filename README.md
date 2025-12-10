@@ -87,7 +87,7 @@ There is a testsuite in `tests/`.  To run it:
     $ csi tests/run
 
 
-Viewing logfmt logs
+Viewing logfmt Logs
 -------------------
 [lnav](https://lnav.org/) is a great terminal based log viewer that supports logfmt and allows you to search, filter and manipulate the logs in a variety of ways.
 
