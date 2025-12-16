@@ -27,7 +27,7 @@
 ;; srfi-13  - String library
 
 
-(define-type kv-pair (pair (or symbol string) (or string symbol integer float)))
+(define-type kv-pair (pair (or symbol string) (or string symbol integer float boolean)))
 
 ;; Exported Definitions ------------------------------------------------------
 
@@ -66,35 +66,35 @@
 ;; are overwritten by later matching keys except the default
 ;; keys: ts, level and msg, which can't be overwritten.
 ;; The log entry will be output to (log-port).
-(: log-debug (string #!rest (list-of kv-pair) --> undefined))
+(: log-debug (string #!rest kv-pair ... -> undefined))
 (define (log-debug msg . args)
   (log-entry 10 "debug" msg args) )
 
 
 ;; Add a log entry with level=info
 ;; See log-debug for more details
-(: log-info (string #!rest (list-of kv-pair) --> undefined))
+(: log-info (string #!rest kv-pair ... -> undefined))
 (define (log-info msg . args)
   (log-entry 20 "info" msg args) )
 
 
 ;; Add a log entry with level=warning
 ;; See log-info for more details
-(: log-warning (string #!rest (list-of kv-pair) --> undefined))
+(: log-warning (string #!rest kv-pair ... -> undefined))
 (define (log-warning msg . args)
   (log-entry 30 "warning" msg args) )
 
 
 ;; Add a log entry with level=error
 ;; See log-info for more details
-(: log-error (string #!rest (list-of kv-pair) --> undefined))
+(: log-error (string #!rest kv-pair ... -> undefined))
 (define (log-error msg . args)
   (log-entry 40 "error" msg args) )
 
 
 ;; Add a log entry with level=critical
 ;; See log-info for more details
-(: log-critical (string #!rest (list-of kv-pair) --> undefined))
+(: log-critical (string #!rest kv-pair ... -> undefined))
 (define (log-critical msg . args)
   (log-entry 50 "critical" msg args) )
 
@@ -108,7 +108,7 @@
 ;; isn't output in the key/value pairs.
 ;; TODO: Choose a name and export this so that additional log- functions
 ;; TODO: can be created
-(: log-entry (integer (or string symbol) string (list-of kv-pair) --> undefined))
+(: log-entry (integer (or string symbol) string (list-of kv-pair) -> undefined))
 (define (log-entry level-number level-str msg kv-pairs)
   (when (>= level-number (log-level))
     (let* ((base-kv-pairs (list (cons 'ts (timestamp))
